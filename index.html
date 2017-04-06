@@ -11,58 +11,54 @@
 </head>
 
 <body>
-  <img src="img/bismillah.png" class="bismillah">
-  <audio id = "audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
-  
+  <header class="row align-center">
+    <img src="img/bismillah.png" class="bismillah">
+    <audio id="audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
+  </header>
   <hr>
-
-  <div class="time-status">
-    <span id="time-now" class="time-now"></span>
-  </div>
-
-  <hr>
-
-  <div class="work-status">
-    <h2>Work Status</h2>
-    <span class="time-label">Current: </span>
-    <span id="work-current" class="time-data"></span>
-    <br>
-    <br>
-    <span class="time-label">Total: </span>
-    <span id="work-total" class="time-data"></span>
-    <br>
-    <span class="time-label">Last: </span>
-    <span id="work-last" class="time-data"></span> 
-  </div>
-
-  <hr>
-
-  <div class="rest-status">
-    <h2>Rest Status</h2>
-    <span class="time-label">Current: </span>
-    <span id="rest-current" class="time-data"></span>
-    <br>
-    <br>
-    <span class="time-label">Total: </span>
-    <span id="rest-total" class="time-data"></span>
-    <br>
-    <span class="time-label">Last: </span>
-    <span id="rest-last" class="time-data"></span>
-    <br>
-    <br>
-    <span class="time-label">Needed: </span>
-    <span id="rest-needed" class="time-data"></span>
-
-  </div>
-
-  <hr>
-
-  <div class="control">
-    <button class="button btn-work">Work</button>
-    <button class="button btn-rest">Rest</button>
-    <button class="button btn-stop">Stop</button>
-    <button class="button btn-reset">Reset</button>
-  </div>
+  <main class="row">
+    <section class="time-status column small-12 medium-6">
+      <h1 id="time-now" class="time-now text-center"></h1>
+      <hr>
+    </section>
+    <section class="productivity column small-12 medium-6 align-center">
+      <h1 class="text-center">Productivity</h1>
+      <hr>
+      <div class="work-status align-center">
+        <h2>Work Status</h2>
+        <span class="time-label punchline-label">Total: </span>
+        <span id="work-total" class="time-data punchline-data work"></span>
+        <br>
+        <span class="time-label">Current: </span>
+        <span id="work-current" class="time-data"></span>
+        <br>
+        <span class="time-label">Last: </span>
+        <span id="work-last" class="time-data"></span>
+      </div>
+      <hr>
+      <div class="rest-status">
+        <h2>Rest Status</h2>
+        <span class="time-label punchline-label">Needed: </span>
+        <span id="rest-needed" class="time-data punchline-data rest"></span>
+        <br>
+        <span class="time-label">Total: </span>
+        <span id="rest-total" class="time-data"></span>
+        <br>
+        <span class="time-label">Current: </span>
+        <span id="rest-current" class="time-data"></span>
+        <br>
+        <span class="time-label">Last: </span>
+        <span id="rest-last" class="time-data"></span>
+      </div>
+      <hr>
+      <div class="control row align-center">
+        <button class="button btn-work">Work</button>
+        <button class="button btn-rest success">Rest</button>
+        <button class="button btn-stop warning">Stop</button>
+        <button class="button btn-reset alert">Reset</button>
+      </div>
+    </section>
+  </main>
 
   <script src="js/app.min.js"></script>
 
