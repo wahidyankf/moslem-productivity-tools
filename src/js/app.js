@@ -13,7 +13,7 @@ var stateApp = {
     restNeeded: moment.duration(0),
     proportionWork: 52,
     proportionRest: 17,
-    restLimit: moment.duration(((90/52)*17), "minutes") 
+    restLimit: moment.duration(((90 / 52) * 17), "seconds")
   },
   time: {
     sessionStart: moment(),
@@ -22,7 +22,9 @@ var stateApp = {
     timeDiff: null
   },
   settings: {
-    updateRate: 400
+    updateRate: 1000,
+    audioRate: 800,
+    audioWorkVolume: 0.2
   }
 };
 
@@ -47,9 +49,6 @@ var rest = function () {
   stateApp.productivity.restTotal = stateApp.productivity.restTotal.add(stateApp.time.timeDiff);
 };
 
-var stop = function () {
-};
-
 var reset = function () {
   if (stateApp.mode.last !== stateApp.mode.current) {
     stateApp.productivity.workTotal = moment.duration(0);
@@ -64,7 +63,7 @@ var reset = function () {
 };
 
 var modeTransition = function () {
-  if (stateApp.mode.current == "work" && stateApp.mode.last == "rest"){
+  if (stateApp.mode.current == "work" && stateApp.mode.last == "rest") {
     stateApp.productivity.restLast = stateApp.productivity.restCurrent;
   } else if (stateApp.mode.current == "rest" && stateApp.mode.last == "work") {
     stateApp.productivity.workLast = stateApp.productivity.workCurrent;
@@ -75,23 +74,10 @@ var displayDuration = function (timeVar) {
   return `${timeVar.hours()}h ${timeVar.minutes()}m ${timeVar.seconds()}s`;
 };
 
-var checkLimit = function () {
-  if (stateApp.productivity.restNeeded.asSeconds() > stateApp.productivity.restLimit.asSeconds() && stateApp.mode.current == "work") {
-    console.log("time to rest");
-    document.getElementById("audio-limit").play();
-  } else {
-    document.getElementById("audio-limit").pause();
-  }
-};
-
 var updateTime = function () {
-
   stateApp.time.markCurrent = moment();
-  
   stateApp.time.timeDiff = stateApp.time.markCurrent - stateApp.time.markLast;
-
   modeTransition();
-
   if (stateApp.mode.current === "work") {
     work();
   } else if (stateApp.mode.current === "rest") {
@@ -101,11 +87,12 @@ var updateTime = function () {
   } else if (stateApp.mode.current === "reset") {
     reset();
   }
+  stateApp.time.markLast = stateApp.time.markCurrent;
+  stateApp.mode.last = stateApp.mode.current;
+};
 
-  checkLimit();
-
+var updateDisplay = function() {
   $('#time-now').html(moment().format('HH:mm:ss'));
-
   $('#work-total').html(displayDuration(stateApp.productivity.workTotal));
   $('#work-current').html(displayDuration(stateApp.productivity.workCurrent));
   $('#work-last').html(displayDuration(stateApp.productivity.workLast));
@@ -113,14 +100,52 @@ var updateTime = function () {
   $('#rest-current').html(displayDuration(stateApp.productivity.restCurrent));
   $('#rest-last').html(displayDuration(stateApp.productivity.restLast));
   $('#rest-needed').html(displayDuration(stateApp.productivity.restNeeded));
-
-  stateApp.time.markLast = stateApp.time.markCurrent;
-  stateApp.mode.last = stateApp.mode.current;
 };
 
-window.setInterval(function () {
-  updateTime(stateApp);
-}, stateApp.settings.updateRate);
+var checkLimit = function () {
+  var audioLimit = document.getElementById("audio-limit");
+  var limitPortion = stateApp.productivity.restNeeded.asSeconds() / stateApp.productivity.restLimit.asSeconds();
+  if (limitPortion >= 1) {
+    $("#rest-needed").css("background-color", "#cc4b37");
+  } else if (limitPortion >= 0.5) {
+    $("#rest-needed").css("background-color", "#ffae00");
+  } else {
+    $("#rest-needed").css("background-color", "#3adb76");
+  }
+  if (limitPortion >= 1 && stateApp.mode.current == "work") {
+    audioLimit.play();
+  } else {
+    audioLimit.pause();
+  }
+};
+
+var updateApp = function () {
+  window.setInterval(function () {
+    updateTime();
+    checkLimit();
+    updateDisplay();
+  }, stateApp.settings.updateRate);
+};
+
+var playSound = function () {
+  var audioWork = document.getElementById("audio-work");
+  audioWork.volume = stateApp.settings.audioWorkVolume;
+  if (stateApp.mode.current == "work") {
+    audioWork.play();
+  } else if (stateApp.mode.current != "work") {
+    audioWork.pause();
+  }
+};
+
+var updateSound = function () {
+  window.setInterval(function () {
+    playSound();
+  }, stateApp.settings.audioRate);
+};
+
+updateApp();
+
+updateSound();
 
 $('.btn-work').click(function () {
   stateApp.mode.last = stateApp.mode.current;
