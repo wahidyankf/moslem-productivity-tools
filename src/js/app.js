@@ -13,7 +13,7 @@ var stateApp = {
     restNeeded: moment.duration(0),
     proportionWork: 52,
     proportionRest: 17,
-    restLimit: moment.duration(((90/52)*17), "seconds") 
+    restLimit: moment.duration(((90/52)*17), "minutes") 
   },
   time: {
     sessionStart: moment(),
