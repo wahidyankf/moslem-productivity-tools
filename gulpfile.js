@@ -69,9 +69,15 @@ gulp.task('copyFonts', function(){
         .pipe(gulp.dest(options.dist + '/fonts'));
 });
 
+gulp.task('copyAudio', function(){
+    return gulp.src(options.src + '/audio/**')
+        .pipe(gulp.dest(options.dist + '/audio'));
+});
+
 gulp.task('build', ['html'], function(){
     gulp.start('copyImage');
     gulp.start('copyFonts');
+    gulp.start('copyAudio');
 });
 
 gulp.task('default', ['clean'], function(){

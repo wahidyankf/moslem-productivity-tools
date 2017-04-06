@@ -1,17 +1,72 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Moslem Productivity Tools</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- build:css css/app.min.css -->
   <link rel="stylesheet" href="css/app.css">
   <!-- endbuild -->
 </head>
 
 <body>
+  <img src="img/bismillah.png" class="bismillah">
+  <audio id = "audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
+  
+  <hr>
 
+  <div class="time-status">
+    <span id="time-now" class="time-now"></span>
+  </div>
+
+  <hr>
+
+  <div class="work-status">
+    <h2>Work Status</h2>
+    <span class="time-label">Current: </span>
+    <span id="work-current" class="time-data"></span>
+    <br>
+    <br>
+    <span class="time-label">Total: </span>
+    <span id="work-total" class="time-data"></span>
+    <br>
+    <span class="time-label">Last: </span>
+    <span id="work-last" class="time-data"></span> 
+  </div>
+
+  <hr>
+
+  <div class="rest-status">
+    <h2>Rest Status</h2>
+    <span class="time-label">Current: </span>
+    <span id="rest-current" class="time-data"></span>
+    <br>
+    <br>
+    <span class="time-label">Total: </span>
+    <span id="rest-total" class="time-data"></span>
+    <br>
+    <span class="time-label">Last: </span>
+    <span id="rest-last" class="time-data"></span>
+    <br>
+    <br>
+    <span class="time-label">Needed: </span>
+    <span id="rest-needed" class="time-data"></span>
+
+  </div>
+
+  <hr>
+
+  <div class="control">
+    <button class="button btn-work">Work</button>
+    <button class="button btn-rest">Rest</button>
+    <button class="button btn-stop">Stop</button>
+    <button class="button btn-reset">Reset</button>
+  </div>
+
+  <!-- build:js js/app.min.js -->
   <script src="components/jquery/dist/jquery.min.js"></script>
   <script src="components/moment/moment.js"></script>
   <script src="js/app.js"></script>
