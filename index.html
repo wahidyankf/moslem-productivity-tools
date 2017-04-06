@@ -16,8 +16,8 @@
     <audio id="audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
     <audio id="audio-work" src="audio/clock_tick.mp3"></audio>
   </header>
-  <main class="row small-12 medium-12 large-12">
-    <section class="time-status column small-12 medium-6 large-4">
+  <main class="prayer row small-12 medium-12 large-12">
+    <section class="time-general column small-12 medium-12 large-12">
       <hr>
       <h3 id="date-now" class="date-now text-center"></h3>
       <h3 id="time-now" class="time-now text-center"></h3>
@@ -29,7 +29,7 @@
           <caption class="text-center table-caption">Work</caption>
           <tr>
             <td class="time-label">Total</td>
-            <td id="work-total" class="time-data work"></td>
+            <td id="work-total" class="time-data work-highlight"></td>
           </tr>
           <tr>
             <td class="time-label">Current</td>
@@ -46,7 +46,7 @@
           <caption class="text-center table-caption">Rest</caption>
           <tr>
             <td class="time-label">Needed</td>
-            <td id="rest-needed" class="time-data rest"></td>
+            <td id="rest-needed" class="time-data rest-highlight"></td>
           </tr>
           <tr>
             <td class="time-label">Total</td>
@@ -69,6 +69,55 @@
         <button class="button btn-reset alert">Reset</button>
       </div>
     </section>
+    <section class="time-status column small-12 medium-6 large-4">
+      <hr>
+      <div class="time-prayer">
+        <table class="prayer-table text-center">
+          <caption class="table-caption">Prayer Times</caption>
+          <tr class="prayer-marker">
+            <td class="prayer-name">Imsak</td>
+            <td id="imsak-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-time">
+            <td class="prayer-name">Fajr</td>
+            <td id="fajr-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-marker">
+            <td class="prayer-name">Sunrise</td>
+            <td id="sunrise-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-time">
+            <td class="prayer-name">Dhuhr</td>
+            <td id="dhuhr-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-time">
+            <td class="prayer-name">Asr</td>
+            <td id="asr-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-time">
+            <td class="prayer-name">Maghrib</td>
+            <td id="maghrib-time" class="prayer-data"></td>
+          </tr>
+          <tr>
+            <td class="prayer-name">Isha</td>
+            <td id="isha-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-marker">
+            <td class="prayer-name">Night - 1&#47;3</td>
+            <td id="onethird-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-marker">
+            <td class="prayer-name">Night - 1&#47;2</td>
+            <td id="halfnight-time" class="prayer-data"></td>
+          </tr>
+          <tr class="prayer-marker">
+            <td class="prayer-name">Night - 2&#47;3</td>
+            <td id="twothird-time" class="prayer-data"></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
   </main>
 
   <script src="js/app.min.js"></script>
