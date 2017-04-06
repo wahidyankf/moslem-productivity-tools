@@ -5,7 +5,7 @@ var stateApp = {
   },
   productivity: {
     workTotal: moment.duration(0),
-    workCurrent: moment.dur,
+    workCurrent: moment.duration(0),
     workLast: moment.duration(0),
     restTotal: moment.duration(0),
     restCurrent: moment.duration(0),
