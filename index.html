@@ -10,54 +10,64 @@
   <link rel="stylesheet" href="css/app.min.css">
 </head>
 
-<body>
-  <header class="row align-center">
+<body class="row align-center">
+  <header class="row align-center small-12 medium-12 large-12">
     <img src="img/bismillah.png" class="bismillah">
     <audio id="audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
     <audio id="audio-work" src="audio/clock_tick.mp3"></audio>
   </header>
-  <hr>
-  <main class="row">
-    <section class="time-status column small-12 medium-6">
-      <h1 id="time-now" class="time-now text-center"></h1>
+  <main class="row small-12 medium-12 large-12">
+    <section class="time-status column small-12 medium-6 large-4">
       <hr>
+      <h3 id="date-now" class="date-now text-center"></h3>
+      <h3 id="time-now" class="time-now text-center"></h3>
     </section>
-    <section class="productivity column small-12 medium-6 align-center">
-      <h1 class="text-center">Productivity</h1>
+    <section class="productivity column small-12 medium-6 large-4 align-center">
       <hr>
       <div class="work-status align-center">
-        <h2>Work Status</h2>
-        <span class="time-label punchline-label">Total: </span>
-        <span id="work-total" class="time-data punchline-data work"></span>
-        <br>
-        <span class="time-label">Current: </span>
-        <span id="work-current" class="time-data"></span>
-        <br>
-        <span class="time-label">Last: </span>
-        <span id="work-last" class="time-data"></span>
+        <table class="text-center">
+          <caption class="text-center table-caption">Work</caption>
+          <tr>
+            <td class="time-label">Total</td>
+            <td id="work-total" class="time-data work"></td>
+          </tr>
+          <tr>
+            <td class="time-label">Current</td>
+            <td id="work-current" class="time-data"></td>
+          </tr>
+          <tr>
+            <td class="time-label">Last</td>
+            <td id="work-last" class="time-data"></td>
+          </tr>
+        </table>
       </div>
-      <hr>
-      <div class="rest-status">
-        <h2>Rest Status</h2>
-        <span class="time-label punchline-label">Needed: </span>
-        <span id="rest-needed" class="time-data punchline-data rest"></span>
-        <br>
-        <span class="time-label">Total: </span>
-        <span id="rest-total" class="time-data"></span>
-        <br>
-        <span class="time-label">Current: </span>
-        <span id="rest-current" class="time-data"></span>
-        <br>
-        <span class="time-label">Last: </span>
-        <span id="rest-last" class="time-data"></span>
-      </div>
-      <hr>
-      <div class="control row align-center">
-        <button class="button btn-work">Work</button>
-        <button class="button btn-rest success">Rest</button>
-        <button class="button btn-stop warning">Stop</button>
-        <button class="button btn-reset alert">Reset</button>
-      </div>
+        <div class="rest-status">
+          <table class="text-center">
+            <caption class="text-center table-caption">Rest</caption>
+            <tr>
+              <td class="time-label">Needed</td>
+              <td id="rest-needed" class="time-data rest"></td>
+            </tr>
+            <tr>
+              <td class="time-label">Total</td>
+              <td id="rest-total" class="time-data"></td>
+            </tr>
+            <tr>
+              <td class="time-label">Current</td>
+              <td id="rest-current" class="time-data"></td>
+            </tr>
+            <tr>
+              <td class="time-label">Last</td>
+              <td id="rest-last" class="time-data"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="control row align-center">
+          <button class="button btn-work">Work</button>
+          <button class="button btn-rest success">Rest</button>
+          <button class="button btn-stop warning">Stop</button>
+          <button class="button btn-reset alert">Reset</button>
+        </div>
     </section>
   </main>
 
