@@ -6,8 +6,25 @@
   }
 }
 
-.time-status{
-  font-size: 3em;
+.time-general{
+  font-size: 1em;
+}
+
+.time-prayer{
+  font-size: 1em;
+}
+
+.prayer-marker{
+  color: grey;
+}
+.prayer-name{
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.prayer-data{
+  font-family: monospace;
+  font-size: 1.5em;
 }
 
 .time-label{
@@ -24,12 +41,12 @@
   font-size: 1.5em;
 }
 
-.work{
+.work-highlight{
   background-color: #1779ba;
   color: white;
 }
 
-.rest{
+.rest-highlight{
   background-color: #3adb76;
   color: white;
 }

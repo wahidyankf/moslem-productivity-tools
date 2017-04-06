@@ -1,7 +1,25 @@
+/*
+Application states
+*/
+
 var stateApp = {
   mode: {
     current: "reset",
     last: "stop"
+  },
+  prayer: {
+    latitude: 51.7167,
+    longitude: 8.7667,
+    lastUpdate: 0,
+    fajr: moment(),
+    dhuhr: moment(),
+    asr: moment(),
+    maghrib: moment(),
+    isha: moment(),
+    oneThird: moment(),
+    halfNight: moment(),
+    twoThird: moment(),
+    imsak: moment()
   },
   productivity: {
     workTotal: moment.duration(0),
@@ -23,12 +41,16 @@ var stateApp = {
   },
   settings: {
     updateRate: 1000,
-    audioRate: 800,
-    audioWorkVolume: 0.2
+    audioRate: 1000,
+    audioWorkVolume: 0.1
   }
 };
 
-var work = function () {
+/* 
+Productivity Section
+*/
+
+var modeWork = function () {
   if (stateApp.mode.last !== stateApp.mode.current) {
     stateApp.productivity.workCurrent = moment.duration(0);
   }
@@ -37,7 +59,7 @@ var work = function () {
   stateApp.productivity.workTotal = stateApp.productivity.workTotal.add(stateApp.time.timeDiff);
 };
 
-var rest = function () {
+var modeRest = function () {
   if (stateApp.mode.last !== stateApp.mode.current) {
     stateApp.productivity.restCurrent = moment.duration(0);
   }
@@ -49,7 +71,7 @@ var rest = function () {
   stateApp.productivity.restTotal = stateApp.productivity.restTotal.add(stateApp.time.timeDiff);
 };
 
-var reset = function () {
+var modeReset = function () {
   if (stateApp.mode.last !== stateApp.mode.current) {
     stateApp.productivity.workTotal = moment.duration(0);
     stateApp.productivity.workCurrent = moment.duration(0);
@@ -60,6 +82,9 @@ var reset = function () {
     stateApp.mode.last = stateApp.mode.current;
     stateApp.mode.current = "stop";
   }
+};
+
+var modeStop = function () {
 };
 
 var modeTransition = function () {
@@ -74,33 +99,21 @@ var displayDuration = function (timeVar) {
   return `${timeVar.hours()}h ${timeVar.minutes()}m ${timeVar.seconds()}s`;
 };
 
-var updateTime = function () {
+var updateProductivity = function () {
   stateApp.time.markCurrent = moment();
   stateApp.time.timeDiff = stateApp.time.markCurrent - stateApp.time.markLast;
   modeTransition();
   if (stateApp.mode.current === "work") {
-    work();
+    modeWork();
   } else if (stateApp.mode.current === "rest") {
-    rest();
+    modeRest();
   } else if (stateApp.mode.current === "stop") {
-    stop();
+    modeStop();
   } else if (stateApp.mode.current === "reset") {
-    reset();
+    modeReset();
   }
   stateApp.time.markLast = stateApp.time.markCurrent;
   stateApp.mode.last = stateApp.mode.current;
-};
-
-var updateDisplay = function() {
-  $('#time-now').html(moment().format('HH:mm:ss'));
-  $('#date-now').html(moment().format('dddd, D MMM YYYY'));
-  $('#work-total').html(displayDuration(stateApp.productivity.workTotal));
-  $('#work-current').html(displayDuration(stateApp.productivity.workCurrent));
-  $('#work-last').html(displayDuration(stateApp.productivity.workLast));
-  $('#rest-total').html(displayDuration(stateApp.productivity.restTotal));
-  $('#rest-current').html(displayDuration(stateApp.productivity.restCurrent));
-  $('#rest-last').html(displayDuration(stateApp.productivity.restLast));
-  $('#rest-needed').html(displayDuration(stateApp.productivity.restNeeded));
 };
 
 var checkLimit = function () {
@@ -120,13 +133,9 @@ var checkLimit = function () {
   }
 };
 
-var updateApp = function () {
-  window.setInterval(function () {
-    updateTime();
-    checkLimit();
-    updateDisplay();
-  }, stateApp.settings.updateRate);
-};
+/*
+Sound
+*/
 
 var playSound = function () {
   var audioWork = document.getElementById("audio-work");
@@ -135,6 +144,7 @@ var playSound = function () {
     audioWork.play();
   } else if (stateApp.mode.current != "work") {
     audioWork.pause();
+    audioWork.currentTime = 0;
   }
 };
 
@@ -144,9 +154,86 @@ var updateSound = function () {
   }, stateApp.settings.audioRate);
 };
 
+/*
+Prayer functions
+*/
+
+var updatePrayer = function (){
+  var pray = prayTimes.getTimes(new Date(), [stateApp.prayer.latitude, stateApp.prayer.longitude]);
+
+  stateApp.prayer.fajr = moment(pray.fajr, "HH:mm");
+  stateApp.prayer.sunrise = moment(pray.sunrise, "HH:mm");
+  stateApp.prayer.dhuhr = moment(pray.dhuhr, "HH:mm");
+  stateApp.prayer.asr = moment(pray.asr, "HH:mm");
+  stateApp.prayer.maghrib = moment(pray.maghrib, "HH:mm");
+  stateApp.prayer.isha = moment(pray.isha, "HH:mm");
+  stateApp.prayer.imsak = moment(pray.imsak, "HH:mm");
+  
+  // var nightLength = (24*60) + stateApp.prayer.fajr.diff(stateApp.prayer.isha, "minutes");
+  // console.log(nightLength);
+
+  stateApp.prayer.oneThird = moment(pray.isha, "HH:mm");
+  stateApp.prayer.halfNight = moment(pray.isha, "HH:mm");
+  stateApp.prayer.twoThird = moment(pray.isha, "HH:mm");
+
+  stateApp.prayer.lastUpdate = moment();
+};
+
+/*
+App Update
+*/
+
+var updateApp = function () {
+  window.setInterval(function () {
+    updateProductivity();
+    checkLimit();
+    updatePrayer();
+    updateDisplay();
+  }, stateApp.settings.updateRate);
+};
+
+/**
+ * Display Functions
+ */
+
+var updateDisplay = function() {
+  // general time
+  $('#time-now').html(moment().format('HH:mm:ss'));
+  $('#date-now').html(moment().format('dddd, D MMM YYYY'));
+
+  // prayer time
+  $('#imsak-time').html(stateApp.prayer.imsak.format("HH:mm"));
+  $('#fajr-time').html(stateApp.prayer.fajr.format("HH:mm"));
+  $('#sunrise-time').html(stateApp.prayer.sunrise.format("HH:mm"));
+  $('#dhuhr-time').html(stateApp.prayer.dhuhr.format("HH:mm"));
+  $('#asr-time').html(stateApp.prayer.asr.format("HH:mm"));
+  $('#maghrib-time').html(stateApp.prayer.maghrib.format("HH:mm"));
+  $('#isha-time').html(stateApp.prayer.isha.format("HH:mm"));
+  $('#onethird-time').html(stateApp.prayer.oneThird.format("HH:mm"));
+  $('#halfnight-time').html(stateApp.prayer.halfNight.format("HH:mm"));
+  $('#twothird-time').html(stateApp.prayer.twoThird.format("HH:mm"));
+
+  // productivity
+  $('#work-total').html(displayDuration(stateApp.productivity.workTotal));
+  $('#work-current').html(displayDuration(stateApp.productivity.workCurrent));
+  $('#work-last').html(displayDuration(stateApp.productivity.workLast));
+  $('#rest-total').html(displayDuration(stateApp.productivity.restTotal));
+  $('#rest-current').html(displayDuration(stateApp.productivity.restCurrent));
+  $('#rest-last').html(displayDuration(stateApp.productivity.restLast));
+  $('#rest-needed').html(displayDuration(stateApp.productivity.restNeeded));
+};
+
+/*
+Runner Functions
+*/
+
 updateApp();
 
 updateSound();
+
+/*
+Button functions
+*/
 
 $('.btn-work').click(function () {
   stateApp.mode.last = stateApp.mode.current;
