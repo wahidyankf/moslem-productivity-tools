@@ -93,6 +93,7 @@ var updateTime = function () {
 
 var updateDisplay = function() {
   $('#time-now').html(moment().format('HH:mm:ss'));
+  $('#date-now').html(moment().format('dddd, D MMM YYYY'));
   $('#work-total').html(displayDuration(stateApp.productivity.workTotal));
   $('#work-current').html(displayDuration(stateApp.productivity.workCurrent));
   $('#work-last').html(displayDuration(stateApp.productivity.workLast));
