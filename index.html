@@ -16,15 +16,17 @@
     <audio id="audio-limit" src="audio/alarm_nuclear.mp3" loop></audio>
     <audio id="audio-work" src="audio/clock_tick.mp3"></audio>
   </header>
-  <main class="prayer row small-12 medium-12 large-12 align-center">
+  <main class="prayer row small-12 medium-12 large-12 align-spaced">
     <section class="time-general column small-12 medium-12 large-12">
       <hr>
-      <h3 id="date-now" class="date-now text-center"></h3>
-      <h3 id="time-now" class="time-now text-center"></h3>
-    </section>
-    <section class="productivity column small-12 medium-6 large-4 align-center">
+      <div class="row align-spaced">
+        <h3 id="date-now" class="column date-now text-center small-6 medium-6 large-6"></h3>
+        <h3 id="time-now" class="column time-now text-center small-6 medium-6 large-6"></h3>
+      </div>
       <hr>
-      <div class="work-status align-center">
+    </section>
+    <section class="productivity column small-12 medium-6 large-4">
+      <div class="work-status">
         <table class="text-center">
           <caption class="text-center table-caption">Work</caption>
           <tr class="work-highlight">
@@ -73,8 +75,7 @@
         <button class="button btn-reset alert">Reset</button>
       </div>
     </section>
-    <section class="time-status column small-12 medium-6 large-4">
-      <hr>
+    <section class="prayer-status column small-12 medium-6 large-4">
       <div class="time-prayer">
         <table class="prayer-table text-center">
           <caption class="table-caption">Prayer Times</caption>
