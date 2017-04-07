@@ -305,7 +305,7 @@ var display = function () {
   $('#date-now').html(moment().format('dddd, D MMM YYYY'));
 
   // prayer time
-  $('#nextprayer-time').html(displayDuration(stateApp.prayer.nextPrayerIn))
+  $('#nextprayer-time').html(displayDuration(stateApp.prayer.nextPrayerIn));
   $('#fajr-time').html(stateApp.prayer.fajr.format("HH:mm"));
   $('#sunrise-time').html(stateApp.prayer.sunrise.format("HH:mm"));
   $('#dhuhr-time').html(stateApp.prayer.dhuhr.format("HH:mm"));
