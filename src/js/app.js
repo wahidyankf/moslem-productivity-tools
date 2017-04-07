@@ -19,7 +19,8 @@ var stateApp = {
     oneThird: moment(),
     halfNight: moment(),
     twoThird: moment(),
-    imsak: moment()
+    imsak: moment(),
+    prayList: ["fajr", "dhuhr", "asr", "maghrib", "isha"]
   },
   productivity: {
     workTotal: moment.duration(0),
@@ -169,12 +170,12 @@ var updatePrayer = function (){
   stateApp.prayer.isha = moment(pray.isha, "HH:mm");
   stateApp.prayer.imsak = moment(pray.imsak, "HH:mm");
   
-  // var nightLength = (24*60) + stateApp.prayer.fajr.diff(stateApp.prayer.isha, "minutes");
-  // console.log(nightLength);
-
-  stateApp.prayer.oneThird = moment(pray.isha, "HH:mm");
-  stateApp.prayer.halfNight = moment(pray.isha, "HH:mm");
-  stateApp.prayer.twoThird = moment(pray.isha, "HH:mm");
+  var nightLength = (24*60) - stateApp.prayer.isha.diff(stateApp.prayer.fajr, "minutes");
+  var isha = stateApp.prayer.isha;
+  
+  stateApp.prayer.oneThird = moment(isha).add((nightLength*1/3), "minutes");
+  stateApp.prayer.halfNight = moment(isha).add((nightLength*1/2), "minutes");
+  stateApp.prayer.twoThird = moment(isha).add((nightLength*2/3), "minutes");
 
   stateApp.prayer.lastUpdate = moment();
 };
