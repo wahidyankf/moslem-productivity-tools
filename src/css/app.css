@@ -4266,7 +4266,8 @@ a.thumbnail {
             order: 6; } }
 
 body {
-  max-width: 1280px; }
+  max-width: 1280px;
+  font-size: 0.85em; }
 
 tr:first-child > td {
   border-top: 2px solid black; }
@@ -4286,6 +4287,11 @@ tr:last-child > td {
 
 .time-prayer {
   font-size: 1em; }
+
+.next-prayer {
+  background-color: #1779ba;
+  color: white;
+  border-bottom: 2px solid black; }
 
 .prayer-marker {
   color: grey; }

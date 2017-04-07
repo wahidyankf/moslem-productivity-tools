@@ -28,6 +28,9 @@ var stateApp = {
     halfNight: moment(),
     twoThird: moment(),
     imsak: moment(),
+    currentSection: 0,
+    nextPrayer: 0,
+    nextPrayerIn: moment.duration(0),
     prayerList: ["fajr", "dhuhr", "asr", "maghrib", "isha"],
     sectionList: ["imsak", "fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "oneThird", "halfNight", "twoThird"]
   },
@@ -185,7 +188,7 @@ var updateSound = function () {
 Prayer Functions
 */
 
-var updatePrayer = function () {
+var updatePrayerTime = function () {
   var today = new Date();
   var pray = prayTimes.getTimes(today, [stateApp.prayer.latitude, stateApp.prayer.longitude]);
 
@@ -263,17 +266,17 @@ var timeToPrayer = function (prayerName) {
 
 var prayer = function () {
   if (stateApp.prayer.lastUpdate === 0) {
-    updatePrayer();
+    updatePrayerTime();
   } else if ((stateApp.time.markCurrent - stateApp.prayer.lastUpdate) >= stateApp.settings.prayerUpdateRate) {
-    updatePrayer();
+    updatePrayerTime();
   }
 
-  var nextPrayer = findPrayer("nextPrayer");
-  var currentSection = findPrayer("currentSection");
-  var timeToNextPrayer = timeToPrayer(nextPrayer);
-  console.log(`Next Prayer: ${nextPrayer}, Current Section: ${currentSection}, Time to Next Prayer: ${timeToNextPrayer.hours()} hours ${timeToNextPrayer.minutes()} minutes`);
-  markPrayer(currentSection, "currentSection");
-  markPrayer(nextPrayer, "nextPrayer");
+  stateApp.prayer.nextPrayer = findPrayer("nextPrayer");
+  stateApp.prayer.currentSection = findPrayer("currentSection");
+  stateApp.prayer.nextPrayerIn = timeToPrayer(stateApp.prayer.nextPrayer);
+
+  markPrayer(stateApp.prayer.currentSection, "currentSection");
+  markPrayer(stateApp.prayer.nextPrayer, "nextPrayer");
 };
 
 /**
@@ -286,6 +289,7 @@ var display = function () {
   $('#date-now').html(moment().format('dddd, D MMM YYYY'));
 
   // prayer time
+  $('#nextprayer-time').html(displayDuration(stateApp.prayer.nextPrayerIn))
   $('#imsak-time').html(stateApp.prayer.imsak.format("HH:mm"));
   $('#fajr-time').html(stateApp.prayer.fajr.format("HH:mm"));
   $('#sunrise-time').html(stateApp.prayer.sunrise.format("HH:mm"));
