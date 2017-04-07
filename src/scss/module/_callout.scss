@@ -18,9 +18,10 @@
   background-color: #1779ba;
   color: white;
   border-bottom: 2px solid black;
+  font-weight: bold;
 }
 
-.prayer-marker{
+.prayer-helper{
   color: grey;
 }
 .prayer-name{
@@ -48,13 +49,20 @@
 }
 
 .work-highlight{
+  #work-total{
   background-color: #1779ba;
   color: white;
+  font-weight: bold;
+  }
+  #work-available{
+    background-color: lightGrey;
+  }
 }
 
 .rest-highlight{
   background-color: #3adb76;
   color: white;
+  font-weight: bold;
 }
 
 .button{

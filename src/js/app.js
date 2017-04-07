@@ -36,6 +36,7 @@ var stateApp = {
   },
   productivity: {
     workTotal: moment.duration(0),
+    workAvailable: moment.duration(0),
     workCurrent: moment.duration(0),
     workLast: moment.duration(0),
     restTotal: moment.duration(0),
@@ -53,7 +54,7 @@ var stateApp = {
     timeDiff: null
   },
   settings: {
-    updateRate: 1000,
+    updateRate: 500,
     audioRate: 1000,
     prayerUpdateRate: 300000,
     audioWorkVolume: 0.1,
@@ -71,7 +72,7 @@ var stateApp = {
       },
       prayNext: {
         backgroundColor: "lightGrey",
-        text: "white"
+        text: "black"
       }
     }
   }
@@ -142,6 +143,9 @@ var productivity = function () {
   } else if (stateApp.mode.current === "reset") {
     modeReset();
   }
+
+  stateApp.productivity.workAvailable = moment.duration((stateApp.productivity.restLimit - stateApp.productivity.restNeeded) * 52 / 17);
+
   stateApp.time.markLast = stateApp.time.markCurrent;
   stateApp.mode.last = stateApp.mode.current;
 };
@@ -243,8 +247,18 @@ var findPrayer = function (toFind) {
         currentSectionIndex = 0;
       }
     }
-    return stateApp.prayer.sectionList[currentSectionIndex-1];
+    return stateApp.prayer.sectionList[currentSectionIndex - 1];
   }
+};
+
+var paintPrayerTable = function(){
+  $(".prayer-table").css("font-weight", "normal");
+  $(".prayer-name").css("font-weight", "bold");
+  $(".prayer-table tr:nth-child(2n+1)").css("background-color", "FEFEFE");
+  $(".prayer-table tr:nth-child(2n)").css("background-color", "#F1F1F1");
+  $(".prayer-helper").css("color", "Grey");
+  $(".prayer-time").css("color", "black");
+  $(".next-prayer").css("background-color", colorPalette.denim);
 };
 
 var markPrayer = function (marked, markType) {
@@ -252,15 +266,15 @@ var markPrayer = function (marked, markType) {
   if (markType == "currentSection") {
     $(selector).parent().children().css("background-color", stateApp.settings.color.praySectionCurrent.backgroundColor);
     $(selector).parent().children().css("color", stateApp.settings.color.praySectionCurrent.text);
+    $(selector).css("font-weight", "bold");
   } else if (markType == "nextPrayer") {
     $(selector).css("background-color", stateApp.settings.color.prayNext.backgroundColor);
     $(selector).css("color", stateApp.settings.color.prayNext.text);
   }
-  $(selector).css("font-weight", "bold");
 };
 
 var timeToPrayer = function (prayerName) {
-  var timeToNext = moment.duration(stateApp.prayer[prayerName]-stateApp.time.markCurrent);
+  var timeToNext = moment.duration(stateApp.prayer[prayerName] - stateApp.time.markCurrent);
   return timeToNext;
 };
 
@@ -274,6 +288,8 @@ var prayer = function () {
   stateApp.prayer.nextPrayer = findPrayer("nextPrayer");
   stateApp.prayer.currentSection = findPrayer("currentSection");
   stateApp.prayer.nextPrayerIn = timeToPrayer(stateApp.prayer.nextPrayer);
+
+  paintPrayerTable();
 
   markPrayer(stateApp.prayer.currentSection, "currentSection");
   markPrayer(stateApp.prayer.nextPrayer, "nextPrayer");
@@ -290,7 +306,6 @@ var display = function () {
 
   // prayer time
   $('#nextprayer-time').html(displayDuration(stateApp.prayer.nextPrayerIn))
-  $('#imsak-time').html(stateApp.prayer.imsak.format("HH:mm"));
   $('#fajr-time').html(stateApp.prayer.fajr.format("HH:mm"));
   $('#sunrise-time').html(stateApp.prayer.sunrise.format("HH:mm"));
   $('#dhuhr-time').html(stateApp.prayer.dhuhr.format("HH:mm"));
@@ -303,6 +318,7 @@ var display = function () {
 
   // productivity
   $('#work-total').html(displayDuration(stateApp.productivity.workTotal));
+  $('#work-available').html(displayDuration(stateApp.productivity.workAvailable));
   $('#work-current').html(displayDuration(stateApp.productivity.workCurrent));
   $('#work-last').html(displayDuration(stateApp.productivity.workLast));
   $('#rest-total').html(displayDuration(stateApp.productivity.restTotal));
