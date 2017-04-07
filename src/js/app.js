@@ -2,6 +2,14 @@
 Application States
 */
 
+var colorPalette = {
+  denim: "#1779ba",
+  boulder: "#767676",
+  shamrock: "#3adb76",
+  yellowsea: "#ffae00",
+  mojo: "#cc4b37"
+};
+
 var stateApp = {
   mode: {
     current: "reset",
@@ -20,7 +28,8 @@ var stateApp = {
     halfNight: moment(),
     twoThird: moment(),
     imsak: moment(),
-    prayList: ["fajr", "dhuhr", "asr", "maghrib", "isha"]
+    prayerList: ["fajr", "dhuhr", "asr", "maghrib", "isha"],
+    sectionList: ["imsak", "fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "oneThird", "halfNight", "twoThird"]
   },
   productivity: {
     workTotal: moment.duration(0),
@@ -44,7 +53,24 @@ var stateApp = {
     updateRate: 1000,
     audioRate: 1000,
     prayerUpdateRate: 300000,
-    audioWorkVolume: 0.1
+    audioWorkVolume: 0.1,
+    color: {
+      work: colorPalette.denim,
+      rest: colorPalette.shamrock,
+      stop: colorPalette.yellowsea,
+      reset: colorPalette.mojo,
+      good: colorPalette.shamrock,
+      warning: colorPalette.yellowsea,
+      danger: colorPalette.mojo,
+      praySectionCurrent: {
+        backgroundColor: colorPalette.shamrock,
+        text: "white"
+      },
+      prayNext: {
+        backgroundColor: "lightGrey",
+        text: "white"
+      }
+    }
   }
 };
 
@@ -121,11 +147,11 @@ var checkLimit = function () {
   var audioLimit = document.getElementById("audio-limit");
   var limitPortion = stateApp.productivity.restNeeded.asSeconds() / stateApp.productivity.restLimit.asSeconds();
   if (limitPortion >= 1) {
-    $("#rest-needed").css("background-color", "#cc4b37");
+    $("#rest-needed").css("background-color", stateApp.settings.color.danger);
   } else if (limitPortion >= 0.5) {
-    $("#rest-needed").css("background-color", "#ffae00");
+    $("#rest-needed").css("background-color", stateApp.settings.color.warning);
   } else {
-    $("#rest-needed").css("background-color", "#3adb76");
+    $("#rest-needed").css("background-color", stateApp.settings.color.good);
   }
   if (limitPortion >= 1 && stateApp.mode.current == "work") {
     audioLimit.play();
@@ -159,7 +185,7 @@ var updateSound = function () {
 Prayer Functions
 */
 
-var updatePrayer = function (mode) {
+var updatePrayer = function () {
   var today = new Date();
   var pray = prayTimes.getTimes(today, [stateApp.prayer.latitude, stateApp.prayer.longitude]);
 
@@ -182,18 +208,72 @@ var updatePrayer = function (mode) {
   stateApp.prayer.lastUpdate = moment();
 };
 
-var markPrayer = function () {
+var findPrayer = function (toFind) {
+  if (toFind == "nextPrayer") {
+    var comparePrayer = [];
+    var nextPrayerIndex = 0;
+    for (var i = 0; i < stateApp.prayer.prayerList.length; i++) {
+      comparePrayer.push(stateApp.time.markCurrent - stateApp.prayer[stateApp.prayer.prayerList[i]]);
+    }
+    for (var i = 0; i < comparePrayer.length; i++) {
+      nextPrayerIndex = i;
+      if (comparePrayer[i] < 0) {
+        break;
+      }
+      if (nextPrayerIndex == comparePrayer.length - 1) {
+        nextPrayerIndex = 0;
+      }
+    }
+    return stateApp.prayer.prayerList[nextPrayerIndex];
+  } else if (toFind == "currentSection") {
+    var currentSectionIndex = 0;
+    var compareSection = [];
+    for (var i = 0; i < stateApp.prayer.sectionList.length; i++) {
+      compareSection.push(stateApp.time.markCurrent - stateApp.prayer[stateApp.prayer.sectionList[i]]);
+    }
+    for (var i = 0; i < compareSection.length; i++) {
+      currentSectionIndex = i;
+      if (compareSection[i] < 0) {
+        break;
+      }
+      if (currentSectionIndex == compareSection.length - 1) {
+        currentSectionIndex = 0;
+      }
+    }
+    return stateApp.prayer.sectionList[currentSectionIndex-1];
+  }
+};
 
+var markPrayer = function (marked, markType) {
+  var selector = `#${marked.toLowerCase()}-time`;
+  if (markType == "currentSection") {
+    $(selector).parent().children().css("background-color", stateApp.settings.color.praySectionCurrent.backgroundColor);
+    $(selector).parent().children().css("color", stateApp.settings.color.praySectionCurrent.text);
+  } else if (markType == "nextPrayer") {
+    $(selector).css("background-color", stateApp.settings.color.prayNext.backgroundColor);
+    $(selector).css("color", stateApp.settings.color.prayNext.text);
+  }
+  $(selector).css("font-weight", "bold");
+};
+
+var timeToPrayer = function (prayerName) {
+  var timeToNext = moment.duration(stateApp.prayer[prayerName]-stateApp.time.markCurrent);
+  return timeToNext;
 };
 
 var prayer = function () {
-  if (stateApp.prayer.lastUpdate == 0) {
-    updatePrayer(); 
-  } else if ((stateApp.time.markCurrent - stateApp.prayer.lastUpdate) >= stateApp.settings.prayerUpdateRate){
+  if (stateApp.prayer.lastUpdate === 0) {
+    updatePrayer();
+  } else if ((stateApp.time.markCurrent - stateApp.prayer.lastUpdate) >= stateApp.settings.prayerUpdateRate) {
     updatePrayer();
   }
 
-  markPrayer();
+  var nextPrayer = findPrayer("nextPrayer");
+  var currentSection = findPrayer("currentSection");
+  var timeToNextPrayer = timeToPrayer(nextPrayer);
+  console.log(`Next Prayer: ${nextPrayer}, Current Section: ${currentSection}, Time to Next Prayer: ${timeToNextPrayer.hours()} hours ${timeToNextPrayer.minutes()} minutes`);
+  markPrayer(currentSection, "currentSection");
+  markPrayer(nextPrayer, "nextPrayer");
 };
 
 /**
@@ -239,7 +319,6 @@ var updateApp = function () {
     display();
   }, stateApp.settings.updateRate);
 };
-
 
 /*
 Runner Functions
