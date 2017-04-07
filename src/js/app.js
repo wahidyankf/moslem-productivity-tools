@@ -1,5 +1,5 @@
 /*
-Application states
+Application States
 */
 
 var stateApp = {
@@ -43,6 +43,7 @@ var stateApp = {
   settings: {
     updateRate: 1000,
     audioRate: 1000,
+    prayerUpdateRate: 300000,
     audioWorkVolume: 0.1
   }
 };
@@ -85,8 +86,7 @@ var modeReset = function () {
   }
 };
 
-var modeStop = function () {
-};
+var modeStop = function () {};
 
 var modeTransition = function () {
   if (stateApp.mode.current == "work" && stateApp.mode.last == "rest") {
@@ -100,7 +100,7 @@ var displayDuration = function (timeVar) {
   return `${timeVar.hours()}h ${timeVar.minutes()}m ${timeVar.seconds()}s`;
 };
 
-var updateProductivity = function () {
+var productivity = function () {
   stateApp.time.markCurrent = moment();
   stateApp.time.timeDiff = stateApp.time.markCurrent - stateApp.time.markLast;
   modeTransition();
@@ -156,11 +156,12 @@ var updateSound = function () {
 };
 
 /*
-Prayer functions
+Prayer Functions
 */
 
-var updatePrayer = function (){
-  var pray = prayTimes.getTimes(new Date(), [stateApp.prayer.latitude, stateApp.prayer.longitude]);
+var updatePrayer = function (mode) {
+  var today = new Date();
+  var pray = prayTimes.getTimes(today, [stateApp.prayer.latitude, stateApp.prayer.longitude]);
 
   stateApp.prayer.fajr = moment(pray.fajr, "HH:mm");
   stateApp.prayer.sunrise = moment(pray.sunrise, "HH:mm");
@@ -169,35 +170,37 @@ var updatePrayer = function (){
   stateApp.prayer.maghrib = moment(pray.maghrib, "HH:mm");
   stateApp.prayer.isha = moment(pray.isha, "HH:mm");
   stateApp.prayer.imsak = moment(pray.imsak, "HH:mm");
-  
-  var nightLength = (24*60) - stateApp.prayer.isha.diff(stateApp.prayer.fajr, "minutes");
+
+  var nightLength = (24 * 60) - stateApp.prayer.isha.diff(stateApp.prayer.fajr, "minutes");
   var isha = stateApp.prayer.isha;
-  
-  stateApp.prayer.oneThird = moment(isha).add((nightLength*1/3), "minutes");
-  stateApp.prayer.halfNight = moment(isha).add((nightLength*1/2), "minutes");
-  stateApp.prayer.twoThird = moment(isha).add((nightLength*2/3), "minutes");
+  var dateToday = stateApp.time.markCurrent.date();
+
+  stateApp.prayer.oneThird = moment(isha).add((nightLength * 1 / 3), "minutes").date(dateToday);
+  stateApp.prayer.halfNight = moment(isha).add((nightLength * 1 / 2), "minutes").date(dateToday);
+  stateApp.prayer.twoThird = moment(isha).add((nightLength * 2 / 3), "minutes").date(dateToday);
 
   stateApp.prayer.lastUpdate = moment();
 };
 
-/*
-App Update
-*/
+var markPrayer = function () {
 
-var updateApp = function () {
-  window.setInterval(function () {
-    updateProductivity();
-    checkLimit();
+};
+
+var prayer = function () {
+  if (stateApp.prayer.lastUpdate == 0) {
+    updatePrayer(); 
+  } else if ((stateApp.time.markCurrent - stateApp.prayer.lastUpdate) >= stateApp.settings.prayerUpdateRate){
     updatePrayer();
-    updateDisplay();
-  }, stateApp.settings.updateRate);
+  }
+
+  markPrayer();
 };
 
 /**
  * Display Functions
  */
 
-var updateDisplay = function() {
+var display = function () {
   // general time
   $('#time-now').html(moment().format('HH:mm:ss'));
   $('#date-now').html(moment().format('dddd, D MMM YYYY'));
@@ -225,6 +228,20 @@ var updateDisplay = function() {
 };
 
 /*
+App Update
+*/
+
+var updateApp = function () {
+  window.setInterval(function () {
+    productivity();
+    checkLimit();
+    prayer();
+    display();
+  }, stateApp.settings.updateRate);
+};
+
+
+/*
 Runner Functions
 */
 
@@ -233,7 +250,7 @@ updateApp();
 updateSound();
 
 /*
-Button functions
+Button Functions
 */
 
 $('.btn-work').click(function () {
