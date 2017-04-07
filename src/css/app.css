@@ -4269,6 +4269,9 @@ body {
   max-width: 1280px;
   font-size: 0.85em; }
 
+section {
+  margin-top: 1em; }
+
 tr:first-child > td {
   border-top: 2px solid black; }
 
@@ -4284,26 +4287,6 @@ tr:last-child > td {
 
 .time-general {
   font-size: 1em; }
-
-.time-prayer {
-  font-size: 1em; }
-
-.next-prayer {
-  background-color: #1779ba;
-  color: white;
-  border-bottom: 2px solid black;
-  font-weight: bold; }
-
-.prayer-helper {
-  color: grey; }
-
-.prayer-name {
-  font-weight: bold;
-  font-size: 1.25em; }
-
-.prayer-data {
-  font-family: monospace;
-  font-size: 1.5em; }
 
 .time-label {
   font-weight: bold;
@@ -4335,5 +4318,29 @@ tr:last-child > td {
 
 .control {
   margin-top: 2em; }
+
+@media (max-width: 420px) {
+  .prayer-status {
+    margin-top: 2em; } }
+
+.time-prayer {
+  font-size: 1em; }
+
+.next-prayer {
+  background-color: #1779ba;
+  color: white;
+  border-bottom: 2px solid black;
+  font-weight: bold; }
+
+.prayer-helper {
+  color: grey; }
+
+.prayer-name {
+  font-weight: bold;
+  font-size: 1.25em; }
+
+.prayer-data {
+  font-family: monospace;
+  font-size: 1.5em; }
 
 /*# sourceMappingURL=app.css.map */

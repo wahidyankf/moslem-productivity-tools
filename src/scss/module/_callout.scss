@@ -10,30 +10,6 @@
   font-size: 1em;
 }
 
-.time-prayer{
-  font-size: 1em;
-}
-
-.next-prayer{
-  background-color: #1779ba;
-  color: white;
-  border-bottom: 2px solid black;
-  font-weight: bold;
-}
-
-.prayer-helper{
-  color: grey;
-}
-.prayer-name{
-  font-weight: bold;
-  font-size: 1.25em;
-}
-
-.prayer-data{
-  font-family: monospace;
-  font-size: 1.5em;
-}
-
 .time-label{
   font-weight: bold;
   font-size: 1.25em;
@@ -72,4 +48,34 @@
 
 .control {
   margin-top: 2em;
+}
+
+.prayer-status{
+  @media (max-width: 420px){
+    margin-top: 2em;
+  }
+}
+
+.time-prayer{
+  font-size: 1em;
+}
+
+.next-prayer{
+  background-color: #1779ba;
+  color: white;
+  border-bottom: 2px solid black;
+  font-weight: bold;
+}
+
+.prayer-helper{
+  color: grey;
+}
+.prayer-name{
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.prayer-data{
+  font-family: monospace;
+  font-size: 1.5em;
 }
