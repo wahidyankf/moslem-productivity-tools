@@ -16,8 +16,8 @@ var stateApp = {
     last: "stop"
   },
   prayer: {
-    latitude: 51.7167,
-    longitude: 8.7667,
+    latitude: 6.1751,
+    longitude: 106.8650,
     lastUpdate: 0,
     fajr: moment(),
     dhuhr: moment(),
