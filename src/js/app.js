@@ -222,7 +222,7 @@ var findPrayer = function (toFind) {
     for (var i = 0; i < stateApp.prayer.prayerList.length; i++) {
       comparePrayer.push(stateApp.time.markCurrent - stateApp.prayer[stateApp.prayer.prayerList[i]]);
     }
-    for (var i = 0; i < comparePrayer.length; i++) {
+    for (let i = 0; i < comparePrayer.length; i++) {
       nextPrayerIndex = i;
       if (comparePrayer[i] < 0) {
         break;
@@ -235,10 +235,10 @@ var findPrayer = function (toFind) {
   } else if (toFind == "currentSection") {
     var currentSectionIndex = 0;
     var compareSection = [];
-    for (var i = 0; i < stateApp.prayer.sectionList.length; i++) {
+    for (let i = 0; i < stateApp.prayer.sectionList.length; i++) {
       compareSection.push(stateApp.time.markCurrent - stateApp.prayer[stateApp.prayer.sectionList[i]]);
     }
-    for (var i = 0; i < compareSection.length; i++) {
+    for (let i = 0; i < compareSection.length; i++) {
       currentSectionIndex = i;
       if (compareSection[i] < 0) {
         break;
