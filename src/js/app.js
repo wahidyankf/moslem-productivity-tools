@@ -251,7 +251,7 @@ var findPrayer = function (toFind) {
   }
 };
 
-var paintPrayerTable = function(){
+var paintPrayerTable = function () {
   $(".prayer-table").css("font-weight", "normal");
   $(".prayer-name").css("font-weight", "bold");
   $(".prayer-table tr:nth-child(2n+1)").css("background-color", "FEFEFE");
