@@ -1,4 +1,4 @@
-.bismillah{
+.bismillah {
   max-height: 3em;
   margin-top: 1.5em;
   @media (min-width: 768px) {
@@ -6,42 +6,42 @@
   }
 }
 
-.time-general{
+.time-general {
   font-size: 1em;
 }
 
-.time-label{
+.time-label {
   font-weight: bold;
   font-size: 1.25em;
 }
 
-.time-data{
+.time-data {
   font-family: monospace;
   font-size: 1.5em;
 }
 
-.table-caption{
+.table-caption {
   font-size: 1.5em;
 }
 
-.work-highlight{
-  #work-total{
-  background-color: #1779ba;
-  color: white;
-  font-weight: bold;
+.work-highlight {
+  #work-total {
+    background-color: #1779ba;
+    color: white;
+    font-weight: bold;
   }
-  #work-available{
+  #work-available {
     background-color: lightGrey;
   }
 }
 
-.rest-highlight{
+.rest-highlight {
   background-color: #3adb76;
   color: white;
   font-weight: bold;
 }
 
-.button{
+.button {
   width: 20%;
   margin: 0.25em;
 }
@@ -50,32 +50,33 @@
   margin-top: 2em;
 }
 
-.prayer-status{
-  @media (max-width: 420px){
+.prayer-status {
+  @media (max-width: 420px) {
     margin-top: 2em;
   }
 }
 
-.time-prayer{
+.time-prayer {
   font-size: 1em;
 }
 
-.next-prayer{
+.next-prayer {
   background-color: #1779ba;
   color: white;
   border-bottom: 2px solid black;
   font-weight: bold;
 }
 
-.prayer-helper{
+.prayer-helper {
   color: grey;
 }
-.prayer-name{
+
+.prayer-name {
   font-weight: bold;
   font-size: 1.25em;
 }
 
-.prayer-data{
+.prayer-data {
   font-family: monospace;
   font-size: 1.5em;
 }
