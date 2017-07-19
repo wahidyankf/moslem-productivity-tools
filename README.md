@@ -1,10 +1,10 @@
 # Moslem Productivity Tools
 
-Hi there, according to the research, we will be more productive when we take break more frequently during works. Some say the golden ratio between walk and rest is 52:17, and some say that we should take a rest every time we work continously every 90 minutes. Therefore, I try to create this little app to track my work and rest time, and remind me to take a break every x minutes or so. You can find the final website [here](https://wahidyankf.github.io/moslem-productivity-tools/index.html).
+Doing more work doesn't always equal to more productivity throughput. Just as research shown, we need enough rest between our working session. Therefore, I try to create this little app to track my work and rest time, and remind me to take a break whenever I am about to burn out (52 minutes work - 17 minutes rest). You can find the final website [here](https://wahidyankf.github.io/moslem-productivity-tools/index.html).
 
 ## Usage
 
-Open the index.html via browser.
+Open the index.html via web browser.
 
 ## License
 
