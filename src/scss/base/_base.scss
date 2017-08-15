@@ -1,16 +1,16 @@
 body {
-  max-width: 1280px;
-  font-size: 0.85em;
+	max-width: 1280px;
+	font-size: 0.85em;
 }
 
 section {
-  margin-top: 1em;
+	margin-top: 1em;
 }
 
-tr:first-child>td {
-  border-top: 2px solid black;
+tr:first-child > td {
+	border-top: 2px solid black;
 }
 
-tr:last-child>td {
-  border-bottom: 0.5px solid black;
+tr:last-child > td {
+	border-bottom: 0.5px solid black;
 }

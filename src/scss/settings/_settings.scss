@@ -46,7 +46,7 @@
 $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
-$foundation-palette: ( primary: #1779ba, secondary: #767676, success: #3adb76, warning: #ffae00, alert: #cc4b37, );
+$foundation-palette: (primary: #1779ba, secondary: #767676, success: #3adb76, warning: #ffae00, alert: #cc4b37);
 $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
 $dark-gray: #8a8a8a;
@@ -54,11 +54,7 @@ $black: #0a0a0a;
 $white: #fefefe;
 $body-background: $white;
 $body-font-color: $black;
-$body-font-family: 'Helvetica Neue',
-Helvetica,
-Roboto,
-Arial,
-sans-serif;
+$body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -71,14 +67,14 @@ $print-transparent-backgrounds: true;
 @include add-foundation-colors;
 // 2. Breakpoints
 // --------------
-$breakpoints: ( small: 0, medium: 640px, large: 1024px, xlarge: 1200px, xxlarge: 1440px, );
+$breakpoints: (small: 0, medium: 640px, large: 1024px, xlarge: 1200px, xxlarge: 1440px);
 $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
 // 3. The Grid
 // -----------
 $grid-row-width: $global-width;
 $grid-column-count: 12;
-$grid-column-gutter: ( small: 20px, medium: 30px, );
+$grid-column-gutter: (small: 20px, medium: 30px);
 $grid-column-align-edge: true;
 $block-grid-max: 8;
 // 4. Base Typography
@@ -86,14 +82,30 @@ $block-grid-max: 8;
 $header-font-family: $body-font-family;
 $header-font-weight: $global-weight-normal;
 $header-font-style: normal;
-$font-family-monospace: Consolas,
-'Liberation Mono',
-Courier,
-monospace;
+$font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-color: inherit;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
-$header-styles: ( small: ( 'h1': ('font-size': 24), 'h2': ('font-size': 20), 'h3': ('font-size': 19), 'h4': ('font-size': 18), 'h5': ('font-size': 17), 'h6': ('font-size': 16), ), medium: ( 'h1': ('font-size': 48), 'h2': ('font-size': 40), 'h3': ('font-size': 31), 'h4': ('font-size': 25), 'h5': ('font-size': 20), 'h6': ('font-size': 16), ), );
+$header-styles: (
+	small:
+		(
+			'h1': ('font-size': 24),
+			'h2': ('font-size': 20),
+			'h3': ('font-size': 19),
+			'h4': ('font-size': 18),
+			'h5': ('font-size': 17),
+			'h6': ('font-size': 16)
+		),
+	medium:
+		(
+			'h1': ('font-size': 48),
+			'h2': ('font-size': 40),
+			'h3': ('font-size': 31),
+			'h4': ('font-size': 25),
+			'h5': ('font-size': 20),
+			'h6': ('font-size': 16)
+		)
+);
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
@@ -199,13 +211,12 @@ $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $black;
 $button-radius: $global-radius;
-$button-sizes: ( tiny: 0.6rem, small: 0.75rem, default: 0.9rem, large: 1.25rem, );
+$button-sizes: (tiny: 0.6rem, small: 0.75rem, default: 0.9rem, large: 1.25rem);
 $button-palette: $foundation-palette;
 $button-opacity-disabled: 0.25;
 $button-background-hover-lightness: -20%;
 $button-hollow-hover-lightness: -50%;
-$button-transition: background-color 0.25s ease-out,
-color 0.25s ease-out;
+$button-transition: background-color 0.25s ease-out, color 0.25s ease-out;
 // 12. Button Group
 // ----------------
 $buttongroup-margin: 1rem;
@@ -237,9 +248,9 @@ $card-margin: $global-margin;
 // 15. Close Button
 // ----------------
 $closebutton-position: right top;
-$closebutton-offset-horizontal: ( small: 0.66rem, medium: 1rem, );
-$closebutton-offset-vertical: ( small: 0.33em, medium: 0.5rem, );
-$closebutton-size: ( small: 1.5em, medium: 2em, );
+$closebutton-offset-horizontal: (small: 0.66rem, medium: 1rem);
+$closebutton-offset-vertical: (small: 0.33em, medium: 0.5rem);
+$closebutton-size: (small: 1.5em, medium: 2em);
 $closebutton-lineheight: 1;
 $closebutton-color: $dark-gray;
 $closebutton-color-hover: $black;
@@ -258,7 +269,7 @@ $dropdown-border: 1px solid $medium-gray;
 $dropdown-font-size: 1rem;
 $dropdown-width: 300px;
 $dropdown-radius: $global-radius;
-$dropdown-sizes: ( tiny: 100px, small: 200px, large: 400px, );
+$dropdown-sizes: (tiny: 100px, small: 200px, large: 400px);
 // 18. Dropdown Menu
 // -----------------
 $dropdownmenu-arrows: true;
@@ -301,8 +312,7 @@ $input-border-focus: 1px solid $dark-gray;
 $input-shadow: inset 0 1px 2px rgba($black, 0.1);
 $input-shadow-focus: 0 0 5px $medium-gray;
 $input-cursor-disabled: not-allowed;
-$input-transition: box-shadow 0.5s,
-border-color 0.25s ease-in-out;
+$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
 $input-number-spinners: true;
 $input-radius: $global-radius;
 $form-button-radius: $global-radius;
@@ -391,7 +401,7 @@ $progress-radius: $global-radius;
 // 28. Responsive Embed
 // --------------------
 $responsive-embed-margin-bottom: rem-calc(16);
-$responsive-embed-ratios: ( default: 4 by 3, widescreen: 16 by 9, );
+$responsive-embed-ratios: (default: 4 by 3, widescreen: 16 by 9);
 // 29. Reveal
 // ----------
 $reveal-background: $white;
