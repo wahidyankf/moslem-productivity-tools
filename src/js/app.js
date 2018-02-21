@@ -56,7 +56,7 @@ let stateApp = {
     restNeeded: moment.duration(0),
     proportionWork: 90,
     proportionRest: 30,
-    restLimit: moment.duration(90, 'minutes'),
+    restLimit: moment.duration(30, 'minutes'),
   },
   time: {
     sessionStart: moment(),
